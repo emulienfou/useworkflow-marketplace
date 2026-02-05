@@ -1,0 +1,21 @@
+{
+  "name": "useworkflow-marketplace",
+  "private": true,
+  "description": "Registry for AI Workflow Builder Template integration plugins",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "workspaces": [
+    "plugins/**/*"
+  ],
+  "scripts": {
+    "type-check": "pnpm -r exec tsc --noEmit",
+    "fix": "pnpm -r exec ultracite fix"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}
