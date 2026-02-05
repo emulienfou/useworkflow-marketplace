@@ -72,7 +72,7 @@ export function SidebarFilters() {
               className="flex items-center gap-3 cursor-pointer group"
             >
               <Checkbox />
-              <span className="text-sm text-muted-foreground group-hover:text-primary transition-colors">
+              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                 {filter}
               </span>
             </label>

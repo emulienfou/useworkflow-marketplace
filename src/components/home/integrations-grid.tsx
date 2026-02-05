@@ -17,7 +17,7 @@ const integrations = [
       "Advanced language model for text generation, translation, and creative reasoning.",
     category: "AI & LLMs",
     icon: Bot,
-    iconColor: "#258df4",
+    iconColor: "#0070f7",
     badge: { label: "Popular", variant: "popular" as const },
   },
   {

@@ -19,7 +19,7 @@ export function IntegrationCard({
   badge,
 }: IntegrationCardProps) {
   return (
-    <div className="bg-card border rounded-xl p-6 hover:border-primary/50 transition-all group flex flex-col gap-4">
+    <div className="bg-card border rounded-xl p-6 hover:border-foreground/20 transition-all group flex flex-col gap-4">
       <div className="flex justify-between items-start">
         <div className="size-12 rounded-lg bg-secondary flex items-center justify-center border">
           <Icon className="size-7" style={{ color: iconColor }} />
@@ -43,7 +43,7 @@ export function IntegrationCard({
         </p>
       </div>
       <div className="mt-auto pt-4 flex items-center justify-between border-t">
-        <span className="text-xs font-medium text-muted-foreground/70">
+        <span className="text-xs font-medium text-muted-foreground">
           {category}
         </span>
         <button className="text-primary text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
