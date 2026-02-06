@@ -24,6 +24,7 @@ const RootLayout = (props: LayoutProps<"/">) => (
   <body
     className={ `${ spaceGrotesk.variable } ${ inter.variable } font-display antialiased selection:bg-primary/30 selection:text-primary bg-background text-foreground min-h-screen` }
   >
+    { props.header }
     { props.children }
   </body>
   </html>

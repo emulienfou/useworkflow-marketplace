@@ -1,5 +1,4 @@
 import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Clock, ExternalLink, FileText, Folder, Scale, Tag } from "lucide-react";
 import Link from "next/link";
@@ -80,7 +79,6 @@ const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
 
   return (
     <div className="relative flex flex-col min-h-screen w-full overflow-x-hidden bg-background">
-      <Header/>
       <main className="max-w-350 mx-auto w-full px-4 md:px-10 py-6">
         <nav className="flex flex-wrap items-center gap-2 mb-6 text-sm">
           <Link className="text-muted-foreground hover:text-primary hover:underline" href="/">Marketplace</Link>
