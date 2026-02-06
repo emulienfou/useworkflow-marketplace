@@ -55,7 +55,7 @@ const RootLayout = async (props: LayoutProps<"/">) => {
   const pageMap = await getPageMap();
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" style={ { colorScheme: "dark" } }>
     <body
       className={ `${ spaceGrotesk.variable } ${ inter.variable } font-display antialiased selection:bg-primary/30 selection:text-primary bg-background text-foreground min-h-screen` }
     >

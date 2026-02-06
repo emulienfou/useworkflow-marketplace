@@ -8,12 +8,10 @@ const Default = () => (
   <Navbar
     logo={
       <div className="flex items-center gap-8">
-        <Link href="/" className="flex items-center gap-2 text-foreground group cursor-pointer">
-          <BlocksIcon className="size-5 text-primary"/>
-          <h2 className="text-lg font-bold tracking-tight">
-            WorkflowBuilder<span className="text-muted-foreground font-normal"> Marketplace</span>
-          </h2>
-        </Link>
+        <BlocksIcon className="size-5 text-primary"/>
+        <h2 className="text-lg font-bold tracking-tight">
+          WorkflowBuilder<span className="text-muted-foreground font-normal"> Marketplace</span>
+        </h2>
       </div>
     }
     // ... Your additional navbar options
