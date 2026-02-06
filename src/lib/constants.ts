@@ -1,0 +1,15 @@
+export const OFFICIAL_PLUGINS: string[] = [
+  "ai-gateway",
+  "fal",
+  "firecrawl",
+  "perplexity",
+  "superagent",
+  "v0",
+  "resend",
+  "slack",
+  "clerk",
+  "github",
+  "stripe",
+  "webflow",
+  "linear",
+];

@@ -1,5 +1,8 @@
 import Readme from "@/components/readme";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { OFFICIAL_PLUGINS } from "@/lib/constants";
+import { capitalize } from "@/lib/utils";
 import { Clock, ExternalLink, FileText, Folder, Scale, Tag } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -76,6 +79,7 @@ async function getPluginDetails(category: string, plugin: string) {
 const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
   const { category, plugin } = await props.params;
   const pluginDetails = await getPluginDetails(category, plugin);
+
   return (
     <div className="relative flex flex-col min-h-screen w-full overflow-x-hidden bg-background">
       <main className="max-w-350 mx-auto w-full px-4 md:px-10 py-6">
@@ -83,7 +87,7 @@ const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
           <Link className="text-muted-foreground hover:text-primary hover:underline" href="/">Marketplace</Link>
           <span className="text-muted-foreground">/</span>
           <Link className="text-muted-foreground hover:text-primary hover:underline"
-                href={ `/${ category }` }>{ category }</Link>
+                href={ `/${ category }` }>{ capitalize(category) }</Link>
           <span className="text-muted-foreground">/</span>
           <span className="font-bold text-foreground">{ pluginDetails.name }</span>
         </nav>
@@ -100,14 +104,18 @@ const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
                 ) }
               </div>
               <h1 className="text-2xl md:text-3xl font-normal tracking-tight text-foreground">
-                <Link className="text-primary hover:underline" href={ `/${ category }` }>{ category }</Link>
+                <Link className="text-primary hover:underline" href={ `/${ category }` }>{ capitalize(category) }</Link>
                 <span className="text-muted-foreground mx-1">/</span>
                 <span className="font-bold">{ pluginDetails.name }</span>
               </h1>
-              <span
-                className="hidden sm:inline-flex items-center rounded-full border bg-background px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+              <Badge variant="outline" className="hidden sm:inline-flex">
                 Public
-              </span>
+              </Badge>
+              { OFFICIAL_PLUGINS.includes(pluginDetails.name) && (
+                <Badge className="bg-green-900/30 text-green-400 border-green-900 tracking-wide">
+                  Official
+                </Badge>
+              ) }
             </div>
             <p className="text-base text-muted-foreground leading-relaxed">
               { pluginDetails.description }
