@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { appConfig } from "@/config/app";
 import { ArrowUpRightIcon } from "lucide-react";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
@@ -20,9 +21,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Workflow Marketplace Home",
-  description:
-    "The next-generation marketplace for AI agents. Discover, fork, and deploy workflows directly into your stack.",
+  title: {
+    default: appConfig.name,
+    template: `%s | ${ appConfig.name }`,
+  },
+  description: appConfig.description,
 };
 
 export const viewport = {

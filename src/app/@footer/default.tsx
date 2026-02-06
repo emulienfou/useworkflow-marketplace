@@ -1,4 +1,5 @@
-import { GithubIcon, Workflow } from "lucide-react";
+import { appConfig } from "@/config/app";
+import { BlocksIcon, GithubIcon } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -7,12 +8,11 @@ const Default = () => (
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 relative z-10">
       <div className="flex flex-col gap-6 max-w-sm">
         <div className="flex items-center gap-2 text-foreground">
-          <Workflow className="size-7 text-muted-foreground"/>
-          <h2 className="text-lg font-bold">Workflow Marketplace</h2>
+          <BlocksIcon className="size-5 text-primary"/>
+          <h2 className="text-lg font-bold">{ appConfig.name }</h2>
         </div>
         <p className="text-muted-foreground text-sm leading-relaxed">
-          The operating system for the next generation of AI-native companies.
-          Deploy autonomous agents in seconds.
+          { appConfig.description }
         </p>
         <div className="flex gap-4">
           <Link

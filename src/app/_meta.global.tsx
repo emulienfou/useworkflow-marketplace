@@ -16,6 +16,12 @@ const meta = {
   docs: {
     type: "page",
     title: "Documentation",
+    items: {
+      index: "Documentation",
+      contributing: {
+        title: "Contributing",
+      },
+    },
   },
 };
 

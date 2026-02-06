@@ -1,3 +1,5 @@
+import { appConfig } from "@/config/app";
+
 const HeroSection = () => (
   <div className="relative w-full px-6 py-24 md:px-10 lg:px-20 border-b border-border overflow-hidden bg-background">
     <div
@@ -9,11 +11,10 @@ const HeroSection = () => (
       <div className="flex flex-col gap-8 items-center justify-center text-center">
         <div className="flex flex-col gap-6 max-w-4xl">
           <h1 className="text-5xl font-bold leading-tight tracking-tight text-foreground pb-2">
-            AI Workflow Builder Plugins Registry
+            { appConfig.title }
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-            Extend your automation canvas with verified plugins. Connect LLMs, databases, and external APIs directly
-            into your visual workflows to build complex AI agents faster.
+            { appConfig.description }
           </p>
         </div>
       </div>

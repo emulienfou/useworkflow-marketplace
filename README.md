@@ -1,4 +1,4 @@
-# UseWorkflow Marketplace
+# WorkflowBuilder Marketplace
 
 This repository serves as the official registry for integrations designed for the [**AI Workflow Builder Template
 **](https://github.com/vercel-labs/workflow-builder-template).   
@@ -7,10 +7,10 @@ AI-powered workflow ecosystem.
 
 ## Overview
 
-The UseWorkflow Marketplace provides a collection of modular integration plugins compatible with the AI Workflow Builder
-Template. Each plugin provides the UI components and execution logic required to connect AI agents and workflows to
-external services. By leveraging a GitHub-as-a-database approach, we ensure that every integration is version-controlled
-and vetted by the community.
+The WorkflowBuilder Marketplace provides a collection of modular integration plugins compatible with the AI Workflow
+Builder Template. Each plugin provides the UI components and execution logic required to connect AI agents and workflows
+to external services. By leveraging a GitHub-as-a-database approach, we ensure that every integration is
+version-controlled and vetted by the community.
 
 ## Core Principles
 
