@@ -16,11 +16,13 @@
 
 import "./ai/ai-gateway";
 import "./ai/fal";
+import "./ai/firecrawl";
 import "./ai/perplexity";
 import "./ai/superagent";
 import "./ai/v0";
 import "./communication/resend";
 import "./communication/slack";
+import "./development/clerk";
 import "./development/github";
 import "./finance/stripe";
 import "./marketing/webflow";
