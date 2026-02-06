@@ -2,7 +2,16 @@
 
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
-import { Brain, Database, Folder, LayoutGrid, MessageSquare, Share2, Terminal } from "lucide-react";
+import {
+  BrainIcon,
+  ClipboardCheckIcon,
+  Folder,
+  LandmarkIcon,
+  LayoutGridIcon,
+  MegaphoneIcon,
+  MessageSquareIcon,
+  TerminalIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -10,21 +19,18 @@ import React from "react";
 const pricingFilters = ["Free", "Paid", "Open Source"];
 
 const categoryIcons: Record<string, React.ElementType> = {
-  all: LayoutGrid,
-  communication: MessageSquare,
-  ai: Brain,
-  database: Database,
-  social: Share2,
-  development: Terminal,
+  all: LayoutGridIcon,
+  ai: BrainIcon,
+  communication: MessageSquareIcon,
+  development: TerminalIcon,
+  finance: LandmarkIcon,
+  marketing: MegaphoneIcon,
+  productivity: ClipboardCheckIcon,
 };
 
 const categoryLabels: Record<string, string> = {
   all: "All Plugins",
-  communication: "Communication",
   ai: "AI & LLMs",
-  database: "Vector DBs",
-  social: "Social",
-  development: "Development",
 };
 
 interface SidebarFiltersProps {
