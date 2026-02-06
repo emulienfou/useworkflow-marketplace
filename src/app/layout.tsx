@@ -2,10 +2,11 @@ import { appConfig } from "@/config/app";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Layout } from "nextra-theme-docs";
-import { getPageMap } from "nextra/page-map";
-import * as React from "react";
+import { Search } from "nextra/components";
 
 import "nextra-theme-docs/style.css";
+import { getPageMap } from "nextra/page-map";
+import * as React from "react";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -50,6 +51,7 @@ const RootLayout = async (props: LayoutProps<"/">) => {
           sidebar={ { defaultMenuCollapseLevel: 1 } }
           darkMode={ false }
           nextThemes={ { defaultTheme: "dark" } }
+          search={ <Search placeholder="Search plugins & docs..."/> }
           // ... Your additional layout options
         >
           { props.children }
