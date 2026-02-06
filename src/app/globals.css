@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "github-markdown-css/github-markdown-dark.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -116,6 +117,10 @@
   --sidebar-accent-foreground: #f4f4f5;
   --sidebar-border: #27272a;
   --sidebar-ring: #d4d4d8;
+}
+
+.markdown-body {
+  background-color: transparent;
 }
 
 @utility bg-gradient-radial {

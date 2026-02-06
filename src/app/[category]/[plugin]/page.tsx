@@ -1,3 +1,4 @@
+import Readme from "@/components/readme";
 import { Button } from "@/components/ui/button";
 import { Clock, ExternalLink, FileText, Folder, Scale, Tag } from "lucide-react";
 import Link from "next/link";
@@ -75,7 +76,6 @@ async function getPluginDetails(category: string, plugin: string) {
 const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
   const { category, plugin } = await props.params;
   const pluginDetails = await getPluginDetails(category, plugin);
-
   return (
     <div className="relative flex flex-col min-h-screen w-full overflow-x-hidden bg-background">
       <main className="max-w-350 mx-auto w-full px-4 md:px-10 py-6">
@@ -133,15 +133,12 @@ const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
                   <span>README.md</span>
                 </div>
               </div>
-              <div className="p-6 md:p-10 text-foreground">
-                <div className="prose prose-invert max-w-none">
-                  { pluginDetails.readmeContent ? (
-                    <div
-                      dangerouslySetInnerHTML={ { __html: pluginDetails.readmeContent.replace(/# (.*)/g, "<h1>$1</h1>").replace(/## (.*)/g, "<h2>$1</h2>").replace(/### (.*)/g, "<h3>$1</h3>").replace(/\* \s*(.*)/g, "<li>$1</li>").replace(/(\r\n|\n|\r){2}/g, "<br />") } }/>
-                  ) : (
-                    <p>No README found for this plugin.</p>
-                  ) }
-                </div>
+              <div className="p-6 md:p-10">
+                { pluginDetails.readmeContent ? (
+                  <Readme source={ pluginDetails.readmeContent }/>
+                ) : (
+                  <p className="text-muted-foreground">No README found for this plugin.</p>
+                ) }
               </div>
             </div>
           </div>
