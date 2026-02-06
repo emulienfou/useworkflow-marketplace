@@ -21,7 +21,10 @@ import "./ai/superagent";
 import "./ai/v0";
 import "./communication/resend";
 import "./communication/slack";
+import "./development/github";
 import "./finance/stripe";
+import "./marketing/webflow";
+import "./productivity/linear";
 
 export type {
   ActionConfigField,
