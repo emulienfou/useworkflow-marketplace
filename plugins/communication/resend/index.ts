@@ -1,5 +1,5 @@
-import type { IntegrationPlugin } from "../registry";
-import { registerIntegration } from "../registry";
+import type { IntegrationPlugin } from "@/plugins/registry";
+import { registerIntegration } from "@/plugins/registry";
 import { ResendIcon } from "./icon";
 
 const resendPlugin: IntegrationPlugin = {

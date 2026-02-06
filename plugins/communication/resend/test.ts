@@ -40,4 +40,3 @@ export async function testResend(credentials: Record<string, string>) {
     };
   }
 }
-

@@ -47,4 +47,3 @@ export async function testSlack(credentials: Record<string, string>) {
     };
   }
 }
-

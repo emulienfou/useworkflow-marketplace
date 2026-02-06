@@ -5,7 +5,7 @@
  * DO NOT EDIT MANUALLY - your changes will be overwritten!
  *
  * To add a new integration:
- * 1. Create a new directory in plugins/ (e.g., plugins/my-integration/)
+ * 1. Create a new directory in plugins/ (e.g., plugins/communication/my-integration/)
  * 2. Add your plugin files (index.tsx, steps/, codegen/, etc.)
  * 3. Run: pnpm discover-plugins (or it runs automatically on build)
  *
@@ -14,8 +14,8 @@
  * 2. Run: pnpm discover-plugins (or it runs automatically on build)
  */
 
-import "./resend";
-import "./slack";
+import "./communication/resend";
+import "./communication/slack";
 
 export type {
   ActionConfigField,
