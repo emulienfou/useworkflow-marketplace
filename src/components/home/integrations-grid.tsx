@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 
 interface Integration {
   name: string;
+  label: string;
   description: string;
   icon?: string;
   svgIcon?: string | null;

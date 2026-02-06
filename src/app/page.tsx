@@ -62,35 +62,47 @@ async function getAllPlugins(categories: string[]) {
         .map(async (item: any) => {
           const pluginName = item.name;
           let svgIcon: string | null = null;
+          let label = pluginName;
+          let description = `An integration for ${pluginName}.`;
 
-          try {
-            const iconResponse = await fetch(
+          // Fetch icon and index.ts in parallel
+          const [iconResponse, indexResponse] = await Promise.all([
+            fetch(
               `https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins/${category}/${pluginName}/icon.tsx`,
-              {
-                headers: {
-                  Authorization: `token ${process.env.GITHUB_TOKEN}`,
-                  Accept: "application/vnd.github.v3+json",
-                },
-                next: { revalidate: 3600 },
-              }
-            );
-            if (iconResponse.ok) {
-              const iconData = await iconResponse.json();
-              if (iconData.content) {
-                const iconContent = Buffer.from(iconData.content, 'base64').toString('utf8');
-                const svgMatch = iconContent.match(/<svg[^>]*>[\s\S]*?<\/svg>/);
-                if (svgMatch) {
-                  svgIcon = svgMatch[0];
-                }
-              }
+              { headers: { Authorization: `token ${process.env.GITHUB_TOKEN}`, Accept: "application/vnd.github.v3+json" }, next: { revalidate: 3600 } }
+            ),
+            fetch(
+              `https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins/${category}/${pluginName}/index.ts`,
+              { headers: { Authorization: `token ${process.env.GITHUB_TOKEN}`, Accept: "application/vnd.github.v3+json" }, next: { revalidate: 3600 } }
+            )
+          ]);
+
+          // Process icon
+          if (iconResponse.ok) {
+            const iconData = await iconResponse.json();
+            if (iconData.content) {
+              const iconContent = Buffer.from(iconData.content, 'base64').toString('utf8');
+              const svgMatch = iconContent.match(/<svg[^>]*>[\s\S]*?<\/svg>/);
+              if (svgMatch) svgIcon = svgMatch[0];
             }
-          } catch (e) {
-            // ignore icon fetch error
+          }
+
+          // Process index.ts
+          if (indexResponse.ok) {
+            const indexData = await indexResponse.json();
+            if (indexData.content) {
+              const indexContent = Buffer.from(indexData.content, 'base64').toString('utf8');
+              const labelMatch = indexContent.match(/label:\s*"([^"]+)"/);
+              const descriptionMatch = indexContent.match(/description:\s*"([^"]+)"/);
+              if (labelMatch?.[1]) label = labelMatch[1];
+              if (descriptionMatch?.[1]) description = descriptionMatch[1];
+            }
           }
 
           return {
             name: pluginName,
-            description: `An integration for ${pluginName}`,
+            label: label,
+            description: description,
             svgIcon: svgIcon,
             icon: svgIcon ? undefined : "folder",
             iconColor: "text-foreground",

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 interface IntegrationCardProps {
   name: string;
+  label: string;
   description: string;
   icon?: string;
   svgIcon?: string | null;
@@ -11,6 +12,7 @@ interface IntegrationCardProps {
 
 export function IntegrationCard({
   name,
+  label,
   description,
   icon,
   svgIcon,
@@ -43,7 +45,7 @@ export function IntegrationCard({
       </div>
       <div>
         <h3 className="text-foreground font-bold text-base group-hover:text-primary transition-colors">
-          {name}
+          {label}
         </h3>
         <p className="text-muted-foreground text-xs mt-1 truncate">{description}</p>
       </div>
