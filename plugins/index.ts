@@ -27,6 +27,7 @@ import "./development/github";
 import "./finance/stripe";
 import "./marketing/webflow";
 import "./productivity/linear";
+import "./system/loop";
 
 export type {
   ActionConfigField,
