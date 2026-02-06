@@ -1,30 +1,37 @@
-import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
+import { Button } from "@/components/ui/button";
+import { Clock, ExternalLink, FileText, Folder, Scale, Tag } from "lucide-react";
 import Link from "next/link";
-import { Folder, ExternalLink, FileText, Star, GitFork, Eye, Scale, Tag, Clock } from "lucide-react";
+import React from "react";
 
 async function getPluginDetails(category: string, plugin: string) {
   const GITHUB_API_BASE = "https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins";
   const headers = {
-    Authorization: `token ${process.env.GITHUB_TOKEN}`,
+    Authorization: `token ${ process.env.GITHUB_TOKEN }`,
     Accept: "application/vnd.github.v3+json",
   };
 
-  const [indexResponse, iconResponse, readmeResponse] = await Promise.all([
-    fetch(`${GITHUB_API_BASE}/${category}/${plugin}/index.ts`, { headers, next: { revalidate: 3600 } }),
-    fetch(`${GITHUB_API_BASE}/${category}/${plugin}/icon.tsx`, { headers, next: { revalidate: 3600 } }),
-    fetch(`${GITHUB_API_BASE}/${category}/${plugin}/README.md`, { headers, next: { revalidate: 3600 } }),
+  const [indexResponse, iconResponse, readmeResponse, commitsResponse] = await Promise.all([
+    fetch(`${ GITHUB_API_BASE }/${ category }/${ plugin }/index.ts`, { headers, next: { revalidate: 3600 } }),
+    fetch(`${ GITHUB_API_BASE }/${ category }/${ plugin }/icon.tsx`, { headers, next: { revalidate: 3600 } }),
+    fetch(`${ GITHUB_API_BASE }/${ category }/${ plugin }/README.md`, { headers, next: { revalidate: 3600 } }),
+    fetch(`https://api.github.com/repos/emulienfou/useworkflow-marketplace/commits?path=plugins/${ category }/${ plugin }&per_page=1`, {
+      headers,
+      next: { revalidate: 3600 },
+    }),
   ]);
 
   let label = plugin;
-  let description = `An integration for ${plugin}.`;
+  let description = `An integration for ${ plugin }.`;
   let svgIcon: string | null = null;
   let readmeContent: string | null = null;
+  let lastUpdated = "Unknown";
 
   if (indexResponse.ok) {
     const indexData = await indexResponse.json();
     if (indexData.content) {
-      const indexContent = Buffer.from(indexData.content, 'base64').toString('utf8');
+      const indexContent = Buffer.from(indexData.content, "base64").toString("utf8");
       const labelMatch = indexContent.match(/label:\s*"([^"]+)"/);
       const descriptionMatch = indexContent.match(/description:\s*"([^"]+)"/);
       if (labelMatch?.[1]) label = labelMatch[1];
@@ -35,7 +42,7 @@ async function getPluginDetails(category: string, plugin: string) {
   if (iconResponse.ok) {
     const iconData = await iconResponse.json();
     if (iconData.content) {
-      const iconContent = Buffer.from(iconData.content, 'base64').toString('utf8');
+      const iconContent = Buffer.from(iconData.content, "base64").toString("utf8");
       const svgMatch = iconContent.match(/<svg[^>]*>[\s\S]*?<\/svg>/);
       if (svgMatch) svgIcon = svgMatch[0];
     }
@@ -44,7 +51,15 @@ async function getPluginDetails(category: string, plugin: string) {
   if (readmeResponse.ok) {
     const readmeData = await readmeResponse.json();
     if (readmeData.content) {
-      readmeContent = Buffer.from(readmeData.content, 'base64').toString('utf8');
+      readmeContent = Buffer.from(readmeData.content, "base64").toString("utf8");
+    }
+  }
+
+  if (commitsResponse.ok) {
+    const commitsData = await commitsResponse.json();
+    if (Array.isArray(commitsData) && commitsData.length > 0) {
+      const date = new Date(commitsData[0].commit.committer.date);
+      lastUpdated = date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
     }
   }
 
@@ -55,54 +70,58 @@ async function getPluginDetails(category: string, plugin: string) {
     svgIcon,
     readmeContent,
     category,
+    lastUpdated,
   };
 }
 
-export default async function PluginPage({ params }: { params: { category: string; plugin: string } }) {
-  const { category, plugin } = params;
+const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
+  const { category, plugin } = await props.params;
   const pluginDetails = await getPluginDetails(category, plugin);
 
   return (
     <div className="relative flex flex-col min-h-screen w-full overflow-x-hidden bg-background">
-      <Header />
-      <main className="max-w-[1400px] mx-auto w-full px-4 md:px-10 py-6">
+      <Header/>
+      <main className="max-w-350 mx-auto w-full px-4 md:px-10 py-6">
         <nav className="flex flex-wrap items-center gap-2 mb-6 text-sm">
           <Link className="text-muted-foreground hover:text-primary hover:underline" href="/">Marketplace</Link>
           <span className="text-muted-foreground">/</span>
-          <Link className="text-muted-foreground hover:text-primary hover:underline" href={`/${category}`}>{category}</Link>
+          <Link className="text-muted-foreground hover:text-primary hover:underline"
+                href={ `/${ category }` }>{ category }</Link>
           <span className="text-muted-foreground">/</span>
-          <span className="font-bold text-foreground">{pluginDetails.name}</span>
+          <span className="font-bold text-foreground">{ pluginDetails.name }</span>
         </nav>
 
         <div className="flex flex-col md:flex-row gap-6 items-start justify-between mb-8 pb-8 border-b">
           <div className="flex flex-col gap-4 max-w-4xl">
             <div className="flex items-center gap-3 flex-wrap">
               <div className="size-8 rounded-md bg-secondary flex items-center justify-center">
-                {pluginDetails.svgIcon ? (
-                  <div className="w-5 h-5 text-foreground" dangerouslySetInnerHTML={{ __html: pluginDetails.svgIcon }} />
+                { pluginDetails.svgIcon ? (
+                  <div className="w-5 h-5 text-foreground"
+                       dangerouslySetInnerHTML={ { __html: pluginDetails.svgIcon } }/>
                 ) : (
-                  <Folder className="size-5 text-muted-foreground" />
-                )}
+                  <Folder className="size-5 text-muted-foreground"/>
+                ) }
               </div>
               <h1 className="text-2xl md:text-3xl font-normal tracking-tight text-foreground">
-                <Link className="text-primary hover:underline" href={`/${category}`}>{category}</Link>
+                <Link className="text-primary hover:underline" href={ `/${ category }` }>{ category }</Link>
                 <span className="text-muted-foreground mx-1">/</span>
-                <span className="font-bold">{pluginDetails.name}</span>
+                <span className="font-bold">{ pluginDetails.name }</span>
               </h1>
-              <span className="hidden sm:inline-flex items-center rounded-full border bg-background px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+              <span
+                className="hidden sm:inline-flex items-center rounded-full border bg-background px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
                 Public
               </span>
             </div>
             <p className="text-base text-muted-foreground leading-relaxed">
-              {pluginDetails.description}
+              { pluginDetails.description }
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
-            <Button variant="outline" asChild>
-              <Link href={`https://github.com/emulienfou/useworkflow-marketplace/tree/main/plugins/${category}/${plugin}`} target="_blank">
-                <ExternalLink className="size-[18px]" />
-                <span>View on GitHub</span>
-              </Link>
+            <Button variant="ghost" size="sm" asChild>
+              <Link
+                className="bg-[#238636] hover:bg-[#2ea043]"
+                href={ `https://github.com/emulienfou/useworkflow-marketplace/tree/main/plugins/${ category }/${ plugin }` }
+                target="_blank"><ExternalLink/> View on GitHub</Link>
             </Button>
           </div>
         </div>
@@ -110,19 +129,21 @@ export default async function PluginPage({ params }: { params: { category: strin
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           <div className="lg:col-span-8 order-2 lg:order-1">
             <div className="bg-card border rounded-lg overflow-hidden">
-              <div className="sticky top-0 z-10 bg-secondary/80 backdrop-blur border-b px-4 py-3 flex items-center justify-between">
+              <div
+                className="sticky top-0 z-10 bg-secondary/80 backdrop-blur border-b px-4 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                  <FileText className="size-[18px] text-muted-foreground" />
+                  <FileText className="size-4.5 text-muted-foreground"/>
                   <span>README.md</span>
                 </div>
               </div>
               <div className="p-6 md:p-10 text-foreground">
                 <div className="prose prose-invert max-w-none">
-                  {pluginDetails.readmeContent ? (
-                    <div dangerouslySetInnerHTML={{ __html: pluginDetails.readmeContent.replace(/# (.*)/g, '<h1>$1</h1>').replace(/## (.*)/g, '<h2>$1</h2>').replace(/### (.*)/g, '<h3>$1</h3>').replace(/\* \s*(.*)/g, '<li>$1</li>').replace(/(\r\n|\n|\r){2}/g, '<br />') }} />
+                  { pluginDetails.readmeContent ? (
+                    <div
+                      dangerouslySetInnerHTML={ { __html: pluginDetails.readmeContent.replace(/# (.*)/g, "<h1>$1</h1>").replace(/## (.*)/g, "<h2>$1</h2>").replace(/### (.*)/g, "<h3>$1</h3>").replace(/\* \s*(.*)/g, "<li>$1</li>").replace(/(\r\n|\n|\r){2}/g, "<br />") } }/>
                   ) : (
                     <p>No README found for this plugin.</p>
-                  )}
+                  ) }
                 </div>
               </div>
             </div>
@@ -131,41 +152,26 @@ export default async function PluginPage({ params }: { params: { category: strin
           <div className="lg:col-span-4 order-1 lg:order-2 flex flex-col gap-6">
             <div className="bg-card border rounded-lg p-5">
               <h3 className="font-bold text-base mb-4 text-foreground">Repository Details</h3>
-              {/* Mocked data for now */}
-              <div className="flex flex-col gap-3 mb-6">
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Star className="size-[18px]" />
-                  <span className="font-bold text-foreground">1.2k</span> stars
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <GitFork className="size-[18px]" />
-                  <span className="font-bold text-foreground">234</span> forks
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                  <Eye className="size-[18px]" />
-                  <span className="font-bold text-foreground">45</span> watching
-                </div>
-              </div>
               <div className="border-t pt-4 flex flex-col gap-3">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">License</span>
                   <div className="flex items-center gap-1 font-medium text-foreground">
-                    <Scale className="size-[16px]" />
+                    <Scale className="size-4"/>
                     MIT
                   </div>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Releases</span>
                   <div className="flex items-center gap-1 font-medium text-foreground">
-                    <Tag className="size-[16px]" />
+                    <Tag className="size-4"/>
                     v1.0.0
                   </div>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-muted-foreground">Last Updated</span>
                   <div className="flex items-center gap-1 font-medium text-foreground">
-                    <Clock className="size-[16px]" />
-                    2 days ago
+                    <Clock className="size-4"/>
+                    { pluginDetails.lastUpdated }
                   </div>
                 </div>
               </div>
@@ -173,20 +179,9 @@ export default async function PluginPage({ params }: { params: { category: strin
           </div>
         </div>
       </main>
-      <Footer />
+      <Footer/>
     </div>
   );
-}
+};
 
-// Helper component to render buttons, as they are client components
-function Button({ children, ...props }: React.ComponentProps<'button'> & { asChild?: boolean; href?: string; target?: string, variant?: 'outline' | 'default' }) {
-  const Comp = props.asChild ? 'a' : 'button';
-  return (
-    <Comp
-      {...props}
-      className="flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-semibold transition-all shadow-sm"
-    >
-      {children}
-    </Comp>
-  );
-}
+export default PluginPage;

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -19,18 +19,13 @@ export const metadata: Metadata = {
     "The next-generation marketplace for AI agents. Discover, fork, and deploy workflows directly into your stack.",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en" className="dark">
-      <body
-        className={`${spaceGrotesk.variable} ${inter.variable} font-display antialiased selection:bg-primary/30 selection:text-primary bg-background text-foreground min-h-screen`}
-      >
-        {children}
-      </body>
-    </html>
-  );
-}
+const RootLayout = (props: LayoutProps<"/">) => (
+  <html lang="en" className="dark">
+  <body
+    className={ `${ spaceGrotesk.variable } ${ inter.variable } font-display antialiased selection:bg-primary/30 selection:text-primary bg-background text-foreground min-h-screen` }
+  >
+    { props.children }
+  </body>
+  </html>
+);
+export default RootLayout;
