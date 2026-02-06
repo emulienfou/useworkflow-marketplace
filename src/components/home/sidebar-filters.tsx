@@ -1,22 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const categories = [
-  { icon: "grid_view", label: "All Plugins", value: "all" },
-  { icon: "psychology", label: "AI & LLMs", value: "ai" },
-  { icon: "database", label: "Vector DBs", value: "vector-db" },
-  { icon: "hub", label: "CRM & Sales", value: "crm" },
-  { icon: "share", label: "Social", value: "social" },
-  { icon: "terminal", label: "Dev Tools", value: "dev-tools" },
-];
-
 const pricingFilters = ["Free", "Paid", "Open Source"];
 
-export function SidebarFilters() {
-  const [activeCategory, setActiveCategory] = useState("all");
+const categoryIcons: Record<string, string> = {
+  all: "grid_view",
+};
+
+const categoryLabels: Record<string, string> = {
+  all: "All Plugins",
+};
+
+interface SidebarFiltersProps {
+  categories: string[];
+}
+
+function capitalize(str: string): string {
+  if (!str) return str;
+  return str[0].toUpperCase() + str.slice(1);
+}
+
+export function SidebarFilters({ categories }: SidebarFiltersProps) {
+  const pathname = usePathname();
+  const activeCategory = pathname === "/" ? "all" : pathname.slice(1);
+
+  const allCategories = ["all", ...categories];
 
   return (
     <aside className="w-full md:w-64 flex flex-col gap-10 shrink-0">
@@ -25,16 +37,18 @@ export function SidebarFilters() {
           Explore
         </h3>
         <div className="flex flex-col gap-1">
-          {categories.map((cat) => {
-            const isActive = activeCategory === cat.value;
+          {allCategories.map((cat) => {
+            const isActive = activeCategory === cat;
+            const href = cat === "all" ? "/" : `/${cat}`;
+
             return (
-              <button
-                key={cat.value}
-                onClick={() => setActiveCategory(cat.value)}
+              <Link
+                key={cat}
+                href={href}
                 className={cn(
                   "relative flex items-center gap-3 px-3 py-2 rounded-md group transition-all",
-                  isActive 
-                    ? "bg-secondary text-foreground font-medium" 
+                  isActive
+                    ? "bg-secondary text-foreground font-medium"
                     : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
                 )}
               >
@@ -44,10 +58,10 @@ export function SidebarFilters() {
                     isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
                   )}
                 >
-                  {cat.icon}
+                  {categoryIcons[cat] || 'folder'}
                 </span>
-                <span className="text-sm">{cat.label}</span>
-              </button>
+                <span className="text-sm">{categoryLabels[cat] || capitalize(cat)}</span>
+              </Link>
             );
           })}
         </div>
