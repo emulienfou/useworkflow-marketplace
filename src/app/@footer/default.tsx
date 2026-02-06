@@ -1,4 +1,4 @@
-import { AtSign, Code, Workflow } from "lucide-react";
+import { GithubIcon, Workflow } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
@@ -17,15 +17,11 @@ const Default = () => (
         <div className="flex gap-4">
           <Link
             className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center border border-border hover:bg-secondary/80 transition-colors"
-            href="#"
+            href="https://github.com/emulienfou/useworkflow-marketplace"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <Code className="size-4 text-muted-foreground"/>
-          </Link>
-          <Link
-            className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center border border-border hover:bg-secondary/80 transition-colors"
-            href="#"
-          >
-            <AtSign className="size-4 text-muted-foreground"/>
+            <GithubIcon className="size-4"/>
           </Link>
         </div>
       </div>
