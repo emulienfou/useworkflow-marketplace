@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Folder } from "lucide-react";
 
 interface IntegrationCardProps {
   name: string;
@@ -15,9 +16,7 @@ export function IntegrationCard({
   name,
   label,
   description,
-  icon,
   svgIcon,
-  iconColor,
   iconBg,
   category,
 }: IntegrationCardProps) {
@@ -30,9 +29,7 @@ export function IntegrationCard({
           {svgIcon ? (
             <div className="w-6 h-6 text-foreground" dangerouslySetInnerHTML={{ __html: svgIcon }} />
           ) : (
-            <span className={`material-symbols-outlined ${iconColor} text-xl`}>
-              {icon}
-            </span>
+            <Folder className="size-6 text-muted-foreground" />
           )}
         </div>
       </div>

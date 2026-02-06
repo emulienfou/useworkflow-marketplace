@@ -1,5 +1,6 @@
 import { IntegrationCard } from "./integration-card";
 import { Button } from "@/components/ui/button";
+import { ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Integration {
   name: string;
@@ -25,7 +26,7 @@ export function IntegrationsGrid({ integrations }: IntegrationsGridProps) {
         </h2>
         <div className="flex gap-2">
           <Button variant="outline" size="icon" className="h-9 w-9">
-            <span className="material-symbols-outlined text-lg">sort</span>
+            <ArrowUpDown className="size-4" />
           </Button>
         </div>
       </div>
@@ -39,9 +40,7 @@ export function IntegrationsGrid({ integrations }: IntegrationsGridProps) {
       {integrations.length > 9 && (
         <div className="mt-12 flex items-center justify-center gap-2">
           <Button variant="outline" size="icon" className="h-9 w-9">
-            <span className="material-symbols-outlined text-lg">
-              chevron_left
-            </span>
+            <ChevronLeft className="size-4" />
           </Button>
           <Button variant="default" size="icon" className="h-9 w-9 font-bold">
             1
@@ -54,9 +53,7 @@ export function IntegrationsGrid({ integrations }: IntegrationsGridProps) {
           </Button>
           <span className="mx-2 text-muted-foreground">...</span>
           <Button variant="outline" size="icon" className="h-9 w-9">
-            <span className="material-symbols-outlined text-lg">
-              chevron_right
-            </span>
+            <ChevronRight className="size-4" />
           </Button>
         </div>
       )}

@@ -1,18 +1,30 @@
 "use client";
 
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
+import { Brain, Database, Folder, LayoutGrid, MessageSquare, Share2, Terminal } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Checkbox } from "@/components/ui/checkbox";
+import React from "react";
 
 const pricingFilters = ["Free", "Paid", "Open Source"];
 
-const categoryIcons: Record<string, string> = {
-  all: "grid_view",
+const categoryIcons: Record<string, React.ElementType> = {
+  all: LayoutGrid,
+  communication: MessageSquare,
+  ai: Brain,
+  database: Database,
+  social: Share2,
+  development: Terminal,
 };
 
 const categoryLabels: Record<string, string> = {
   all: "All Plugins",
+  communication: "Communication",
+  ai: "AI & LLMs",
+  database: "Vector DBs",
+  social: "Social",
+  development: "Development",
 };
 
 interface SidebarFiltersProps {
@@ -37,33 +49,32 @@ export function SidebarFilters({ categories }: SidebarFiltersProps) {
           Explore
         </h3>
         <div className="flex flex-col gap-1">
-          {allCategories.map((cat) => {
+          { allCategories.map((cat) => {
             const isActive = activeCategory === cat;
-            const href = cat === "all" ? "/" : `/${cat}`;
+            const href = cat === "all" ? "/" : `/${ cat }`;
+            const Icon = categoryIcons[cat] || Folder;
 
             return (
               <Link
-                key={cat}
-                href={href}
-                className={cn(
+                key={ cat }
+                href={ href }
+                className={ cn(
                   "relative flex items-center gap-3 px-3 py-2 rounded-md group transition-all",
                   isActive
                     ? "bg-secondary text-foreground font-medium"
-                    : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
-                )}
+                    : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground",
+                ) }
               >
-                <span
-                  className={cn(
-                    "material-symbols-outlined text-lg transition-colors",
-                    isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
-                  )}
-                >
-                  {categoryIcons[cat] || 'folder'}
-                </span>
-                <span className="text-sm">{categoryLabels[cat] || capitalize(cat)}</span>
+                <Icon
+                  className={ cn(
+                    "size-5 transition-colors",
+                    isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground",
+                  ) }
+                />
+                <span className="text-sm">{ categoryLabels[cat] || capitalize(cat) }</span>
               </Link>
             );
-          })}
+          }) }
         </div>
       </div>
       <div className="flex flex-col gap-4">
@@ -71,17 +82,17 @@ export function SidebarFilters({ categories }: SidebarFiltersProps) {
           Type
         </h3>
         <div className="flex flex-col gap-3 pl-3">
-          {pricingFilters.map((filter) => (
+          { pricingFilters.map((filter) => (
             <label
-              key={filter}
+              key={ filter }
               className="flex items-center gap-3 cursor-pointer group"
             >
-              <Checkbox className="rounded-sm" />
+              <Checkbox className="rounded-sm"/>
               <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                {filter}
+                { filter }
               </span>
             </label>
-          ))}
+          )) }
         </div>
       </div>
     </aside>

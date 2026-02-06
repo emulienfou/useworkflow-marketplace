@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { CheckCircle, Zap, Code } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -10,10 +11,10 @@ export function HeroSection() {
         <div className="flex flex-col gap-8 items-center justify-center text-center">
           <div className="flex flex-col gap-6 max-w-4xl">
             <h1 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight text-foreground pb-2">
-              Workflow Plugins Registry
+              Best app & software plugins
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-              Extend your automation canvas with verified plugins. Connect LLMs, databases, and external APIs directly into your visual workflows to build complex AI agents faster.
+              Optimize your workflows with these top software plugins. Seamlessly move and transform data between different apps with Workflow Marketplace.
             </p>
           </div>
           
@@ -26,22 +27,20 @@ export function HeroSection() {
             </Button>
           </div>
 
-          {/*<div className="flex flex-wrap justify-center gap-8 pt-8 opacity-60">*/}
-          {/*  <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">*/}
-          {/*    <span className="material-symbols-outlined text-base">*/}
-          {/*      check_circle*/}
-          {/*    </span>{" "}*/}
-          {/*    500+ Plugins*/}
-          {/*  </span>*/}
-          {/*  <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">*/}
-          {/*    <span className="material-symbols-outlined text-base">bolt</span>{" "}*/}
-          {/*    Instant Deploy*/}
-          {/*  </span>*/}
-          {/*  <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">*/}
-          {/*    <span className="material-symbols-outlined text-base">code</span>{" "}*/}
-          {/*    Open Source*/}
-          {/*  </span>*/}
-          {/*</div>*/}
+          <div className="flex flex-wrap justify-center gap-8 pt-8 opacity-60">
+            <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">
+              <CheckCircle className="size-4" />
+              500+ Plugins
+            </span>
+            <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">
+              <Zap className="size-4" />
+              Instant Deploy
+            </span>
+            <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">
+              <Code className="size-4" />
+              Open Source
+            </span>
+          </div>
         </div>
       </div>
     </div>

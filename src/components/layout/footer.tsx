@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Workflow, Code, AtSign } from "lucide-react";
 
 export function Footer() {
   return (
@@ -6,9 +7,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 relative z-10">
         <div className="flex flex-col gap-6 max-w-sm">
           <div className="flex items-center gap-2 text-foreground">
-            <span className="material-symbols-outlined text-2xl text-muted-foreground">
-              account_tree
-            </span>
+            <Workflow className="size-7 text-muted-foreground" />
             <h2 className="text-lg font-bold">Workflow Marketplace</h2>
           </div>
           <p className="text-muted-foreground text-sm leading-relaxed">
@@ -20,17 +19,13 @@ export function Footer() {
               className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center border border-border hover:bg-secondary/80 transition-colors"
               href="#"
             >
-              <span className="material-symbols-outlined text-base text-muted-foreground">
-                code
-              </span>
+              <Code className="size-4 text-muted-foreground" />
             </Link>
             <Link
               className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center border border-border hover:bg-secondary/80 transition-colors"
               href="#"
             >
-              <span className="material-symbols-outlined text-base text-muted-foreground">
-                alternate_email
-              </span>
+              <AtSign className="size-4 text-muted-foreground" />
             </Link>
           </div>
         </div>
@@ -106,9 +101,8 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div
-        className="max-w-7xl mx-auto mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground gap-4">
-        <p>© { new Date().getFullYear() } Not affiliated with Vercel.</p>
+      <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground gap-4">
+        <p>© 2024 Workflow Marketplace Inc. All rights reserved.</p>
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-green-500"></div>
           <span>All systems operational</span>
