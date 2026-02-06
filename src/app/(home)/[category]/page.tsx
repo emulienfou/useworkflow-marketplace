@@ -1,8 +1,9 @@
-import { getPluginsForCategory } from "@/app/actions";
+import { getPluginCategories, getPluginsForCategory } from "@/app/actions";
 import { IntegrationsGrid } from "@/components/home/integrations-grid";
 import { appConfig } from "@/config/app";
 import { capitalize } from "@/lib/utils";
 import { Metadata } from "next";
+import React from "react";
 
 export const generateMetadata = async (props: PageProps<"/[category]">): Promise<Metadata> => {
   const { category } = await props.params;
@@ -14,6 +15,13 @@ export const generateMetadata = async (props: PageProps<"/[category]">): Promise
 
 const Page = async (props: PageProps<"/[category]">) => {
   const { category } = await props.params;
+
+  const categories = await getPluginCategories();
+  if (!categories.includes(category)) {
+    return <p className="text-muted-foreground">No plugins found for this category.</p>;
+  }
+
+
   const plugins = await getPluginsForCategory(category);
 
   return <IntegrationsGrid integrations={ plugins }/>;

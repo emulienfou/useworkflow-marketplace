@@ -298,4 +298,25 @@ const getPluginsForCategory = async (category: string) => {
   }
 };
 
-export { getPluginCategories, getAllPlugins, getPluginDetails, getPluginsForCategory };
+const pluginExists = async (category: string, plugin: string): Promise<boolean> => {
+  cacheLife("hours");
+
+  try {
+    const response = await fetch(
+      `${ process.env.GITHUB_API_REPO_BASE }/contents/plugins/${ category }/${ plugin }`,
+      {
+        headers: {
+          Authorization: `token ${ process.env.GITHUB_TOKEN }`,
+          Accept: "application/vnd.github.v3+json",
+        },
+        next: { revalidate: 3600 },
+      },
+    );
+
+    return response.ok;
+  } catch {
+    return false;
+  }
+};
+
+export { getPluginCategories, getAllPlugins, getPluginDetails, getPluginsForCategory, pluginExists };

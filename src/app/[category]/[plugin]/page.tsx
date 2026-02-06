@@ -1,4 +1,4 @@
-import { getPluginDetails } from "@/app/actions";
+import { getPluginDetails, pluginExists } from "@/app/actions";
 import Readme from "@/components/readme";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { capitalize } from "@/lib/utils";
 import { Clock, ExternalLink, FileText, Folder, Scale, Tag } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import React from "react";
 
 export const generateMetadata = async (props: PageProps<"/[category]/[plugin]">): Promise<Metadata> => {
@@ -19,6 +20,12 @@ export const generateMetadata = async (props: PageProps<"/[category]/[plugin]">)
 
 const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
   const { category, plugin } = await props.params;
+
+  const exists = await pluginExists(category, plugin);
+  if (!exists) {
+    notFound();
+  }
+
   const pluginDetails = await getPluginDetails(category, plugin);
 
   return (
