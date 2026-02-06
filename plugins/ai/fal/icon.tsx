@@ -4,7 +4,7 @@ export function FalIcon({ className }: { className?: string }) {
       aria-label="fal.ai logo"
       className={ className }
       fill="currentColor"
-      viewBox="0 0 120 48"
+      viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title>Fal</title>
