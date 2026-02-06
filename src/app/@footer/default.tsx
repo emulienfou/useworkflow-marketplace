@@ -25,84 +25,42 @@ const Default = () => (
           </Link>
         </div>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 md:gap-20">
-        <div className="flex flex-col gap-4">
-          <h4 className="text-foreground font-bold text-sm tracking-wide">
-            Product
-          </h4>
-          <Link
-            className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
-          >
-            Marketplace
-          </Link>
-          <Link
-            className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
-          >
-            SDK
-          </Link>
-          <Link
-            className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
-          >
-            Pricing
-          </Link>
-        </div>
+      <div className="grid grid-cols gap-12 md:gap-20">
         <div className="flex flex-col gap-4">
           <h4 className="text-foreground font-bold text-sm tracking-wide">
             Resources
           </h4>
           <Link
             className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
+            href="https://useworkflow.dev"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            Docs
+            DevKit
           </Link>
           <Link
             className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
+            href="https://workflow-builder.dev"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            Changelog
+            AI Builder Template
           </Link>
           <Link
             className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
+            href="/docs"
           >
-            Community
-          </Link>
-        </div>
-        <div className="flex flex-col gap-4">
-          <h4 className="text-foreground font-bold text-sm tracking-wide">
-            Legal
-          </h4>
-          <Link
-            className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
-          >
-            Terms
-          </Link>
-          <Link
-            className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
-          >
-            Privacy
-          </Link>
-          <Link
-            className="text-muted-foreground text-sm hover:text-foreground transition-colors"
-            href="#"
-          >
-            Security
+            Documentation
           </Link>
         </div>
       </div>
     </div>
     <div
       className="max-w-7xl mx-auto mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground gap-4">
-      <p>© 2024 Workflow Marketplace Inc. All rights reserved.</p>
+      <p>© { new Date().getFullYear() } All rights reserved.</p>
       <div className="flex items-center gap-2">
-        <div className="h-2 w-2 rounded-full bg-green-500"></div>
-        <span>All systems operational</span>
+        Product by <Link href="https://davidsanchez.me" target="_blank" rel="noopener noreferrer"
+                         className="font-semibold">David Sanchez</Link>
       </div>
     </div>
   </footer>

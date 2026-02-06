@@ -11,7 +11,7 @@ const meta = {
   builder: {
     type: "page",
     title: "AI Builder Template",
-    href: "https://github.com/vercel-labs/workflow-builder-template",
+    href: "https://workflow-builder.dev",
   },
   docs: {
     type: "page",

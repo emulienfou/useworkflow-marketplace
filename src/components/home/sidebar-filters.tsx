@@ -1,6 +1,5 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import {
   BrainIcon,
@@ -15,8 +14,6 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
-
-const pricingFilters = ["Free", "Paid", "Open Source"];
 
 const categoryIcons: Record<string, React.ElementType> = {
   all: LayoutGridIcon,
@@ -81,24 +78,6 @@ export function SidebarFilters({ categories }: SidebarFiltersProps) {
               </Link>
             );
           }) }
-        </div>
-      </div>
-      <div className="flex flex-col gap-4">
-        <h3 className="text-muted-foreground text-xs font-bold uppercase tracking-widest pl-3">
-          Type
-        </h3>
-        <div className="flex flex-col gap-3 pl-3">
-          { pricingFilters.map((filter) => (
-            <label
-              key={ filter }
-              className="flex items-center gap-3 cursor-pointer group"
-            >
-              <Checkbox className="rounded-sm"/>
-              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                { filter }
-              </span>
-            </label>
-          )) }
         </div>
       </div>
     </aside>
