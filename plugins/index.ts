@@ -14,8 +14,14 @@
  * 2. Run: pnpm discover-plugins (or it runs automatically on build)
  */
 
+import "./ai/ai-gateway";
+import "./ai/fal";
+import "./ai/perplexity";
+import "./ai/superagent";
+import "./ai/v0";
 import "./communication/resend";
 import "./communication/slack";
+import "./finance/stripe";
 
 export type {
   ActionConfigField,
