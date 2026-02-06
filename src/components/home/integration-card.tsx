@@ -1,54 +1,45 @@
-import type { LucideIcon } from "lucide-react";
-import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface IntegrationCardProps {
   name: string;
   description: string;
-  category: string;
-  icon: LucideIcon;
+  icon: string;
   iconColor: string;
-  badge?: { label: string; variant: "popular" | "new" };
+  iconBg: string;
 }
 
 export function IntegrationCard({
   name,
   description,
-  category,
-  icon: Icon,
+  icon,
   iconColor,
-  badge,
+  iconBg,
 }: IntegrationCardProps) {
   return (
-    <div className="bg-card border rounded-xl p-6 hover:border-foreground/20 transition-all group flex flex-col gap-4">
-      <div className="flex justify-between items-start">
-        <div className="size-12 rounded-lg bg-secondary flex items-center justify-center border">
-          <Icon className="size-7" style={{ color: iconColor }} />
-        </div>
-        {badge && (
-          <span
-            className={`text-[10px] uppercase font-bold px-2 py-1 rounded ${
-              badge.variant === "popular"
-                ? "bg-primary/10 text-primary"
-                : "bg-emerald-500/10 text-emerald-500"
-            }`}
-          >
-            {badge.label}
+    <div className="group relative flex flex-col p-5 rounded-xl border border-border bg-card hover:border-primary/20 hover:shadow-lg transition-all duration-300">
+      <div className="flex items-start justify-between mb-4">
+        <div
+          className={`w-10 h-10 rounded-lg ${iconBg} flex items-center justify-center border border-border group-hover:border-primary/20 transition-colors`}
+        >
+          <span className={`material-symbols-outlined ${iconColor} text-xl`}>
+            {icon}
           </span>
-        )}
+        </div>
+        <Link
+          className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground border border-border px-2 py-1 rounded hover:bg-secondary hover:text-foreground transition-colors flex items-center gap-1"
+          href="#"
+        >
+          View Git{" "}
+          <span className="material-symbols-outlined text-[10px]">
+            arrow_outward
+          </span>
+        </Link>
       </div>
       <div>
-        <h3 className="text-foreground font-bold text-lg">{name}</h3>
-        <p className="text-muted-foreground text-sm mt-1 leading-relaxed">
-          {description}
-        </p>
-      </div>
-      <div className="mt-auto pt-4 flex items-center justify-between border-t">
-        <span className="text-xs font-medium text-muted-foreground">
-          {category}
-        </span>
-        <button className="text-primary text-sm font-bold flex items-center gap-1 group-hover:gap-2 transition-all">
-          Install <ArrowRight className="size-3.5" />
-        </button>
+        <h3 className="text-foreground font-bold text-base group-hover:text-primary transition-colors">
+          {name}
+        </h3>
+        <p className="text-muted-foreground text-xs mt-1 truncate">{description}</p>
       </div>
     </div>
   );

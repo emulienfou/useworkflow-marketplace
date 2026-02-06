@@ -1,67 +1,69 @@
-import {
-  Bot,
-  Coins,
-  CloudCog,
-  MessageCircle,
-  GitBranch,
-  Table2,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
 import { IntegrationCard } from "./integration-card";
+import { Button } from "@/components/ui/button";
 
 const integrations = [
   {
     name: "OpenAI GPT-4o",
-    description:
-      "Advanced language model for text generation, translation, and creative reasoning.",
-    category: "AI & LLMs",
-    icon: Bot,
-    iconColor: "#0070f7",
-    badge: { label: "Popular", variant: "popular" as const },
+    description: "Advanced language model for generation",
+    icon: "smart_toy",
+    iconColor: "text-foreground",
+    iconBg: "bg-background",
   },
   {
     name: "Pinecone DB",
-    description:
-      "Managed vector database for long-term memory in AI agents and search.",
-    category: "Vector Databases",
-    icon: Coins,
-    iconColor: "#ff6a00",
-    badge: { label: "New", variant: "new" as const },
+    description: "Managed vector database for memory",
+    icon: "token",
+    iconColor: "text-orange-500",
+    iconBg: "bg-background",
   },
   {
     name: "Salesforce",
-    description:
-      "Sync leads, opportunities, and tasks directly into your AI workflows.",
-    category: "CRM",
-    icon: CloudCog,
-    iconColor: "#00a1e0",
-    badge: { label: "Popular", variant: "popular" as const },
+    description: "Sync leads and opportunities",
+    icon: "cloud_sync",
+    iconColor: "text-blue-500",
+    iconBg: "bg-background",
   },
   {
     name: "Discord Bot",
-    description:
-      "Create interactive AI bots for your server with slash commands and events.",
-    category: "Social Media",
-    icon: MessageCircle,
-    iconColor: "#7289da",
+    description: "Interactive AI bots for your server",
+    icon: "chat",
+    iconColor: "text-indigo-500",
+    iconBg: "bg-background",
   },
   {
     name: "GitHub Actions",
-    description:
-      "Trigger workflows on PRs, issues, or releases using AI analysis.",
-    category: "Dev Tools",
-    icon: GitBranch,
-    iconColor: "#f05032",
+    description: "Trigger workflows on PRs",
+    icon: "commit",
+    iconColor: "text-red-500",
+    iconBg: "bg-background",
   },
   {
     name: "Google Sheets",
-    description:
-      "Read and write data to spreadsheets directly from your AI agent.",
-    category: "Productivity",
-    icon: Table2,
-    iconColor: "#00a300",
-    badge: { label: "New", variant: "new" as const },
+    description: "Data sync for spreadsheets",
+    icon: "table_rows",
+    iconColor: "text-green-600",
+    iconBg: "bg-background",
+  },
+  {
+    name: "Zapier Hook",
+    description: "Universal webhook receiver",
+    icon: "bolt",
+    iconColor: "text-purple-500",
+    iconBg: "bg-background",
+  },
+  {
+    name: "Notion Sync",
+    description: "Knowledge base synchronization",
+    icon: "folder_open",
+    iconColor: "text-yellow-500",
+    iconBg: "bg-background",
+  },
+  {
+    name: "SendGrid",
+    description: "Transactional email service",
+    icon: "mail",
+    iconColor: "text-blue-400",
+    iconBg: "bg-background",
   },
 ];
 
@@ -69,54 +71,43 @@ export function IntegrationsGrid() {
   return (
     <div className="flex-1">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-foreground text-2xl font-bold tracking-tight">
+        <h2 className="text-foreground text-xl font-semibold tracking-tight">
           Featured Integrations
         </h2>
-        <button className="p-2 rounded-lg border hover:bg-secondary text-muted-foreground transition-colors">
-          <svg
-            className="size-5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="m3 16 4 4 4-4" />
-            <path d="M7 20V4" />
-            <path d="m21 8-4-4-4 4" />
-            <path d="M17 4v16" />
-          </svg>
-        </button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="icon" className="h-9 w-9">
+            <span className="material-symbols-outlined text-lg">sort</span>
+          </Button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {integrations.map((integration) => (
           <IntegrationCard key={integration.name} {...integration} />
         ))}
       </div>
 
-      {/* Pagination */}
       <div className="mt-12 flex items-center justify-center gap-2">
-        <button className="size-10 flex items-center justify-center rounded-lg border hover:bg-secondary transition-colors">
-          <ChevronLeft className="size-4" />
-        </button>
-        <button className="size-10 flex items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold">
+        <Button variant="outline" size="icon" className="h-9 w-9">
+          <span className="material-symbols-outlined text-lg">
+            chevron_left
+          </span>
+        </Button>
+        <Button variant="default" size="icon" className="h-9 w-9 font-bold">
           1
-        </button>
-        <button className="size-10 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
+        </Button>
+        <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground">
           2
-        </button>
-        <button className="size-10 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
+        </Button>
+        <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground">
           3
-        </button>
+        </Button>
         <span className="mx-2 text-muted-foreground">...</span>
-        <button className="size-10 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
-          12
-        </button>
-        <button className="size-10 flex items-center justify-center rounded-lg border hover:bg-secondary transition-colors">
-          <ChevronRight className="size-4" />
-        </button>
+        <Button variant="outline" size="icon" className="h-9 w-9">
+          <span className="material-symbols-outlined text-lg">
+            chevron_right
+          </span>
+        </Button>
       </div>
     </div>
   );
