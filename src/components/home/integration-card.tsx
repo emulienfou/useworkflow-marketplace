@@ -3,7 +3,8 @@ import Link from "next/link";
 interface IntegrationCardProps {
   name: string;
   description: string;
-  icon: string;
+  icon?: string;
+  svgIcon?: string | null;
   iconColor: string;
   iconBg: string;
 }
@@ -12,6 +13,7 @@ export function IntegrationCard({
   name,
   description,
   icon,
+  svgIcon,
   iconColor,
   iconBg,
 }: IntegrationCardProps) {
@@ -21,9 +23,13 @@ export function IntegrationCard({
         <div
           className={`w-10 h-10 rounded-lg ${iconBg} flex items-center justify-center border border-border group-hover:border-primary/20 transition-colors`}
         >
-          <span className={`material-symbols-outlined ${iconColor} text-xl`}>
-            {icon}
-          </span>
+          {svgIcon ? (
+            <div className="w-6 h-6 text-foreground" dangerouslySetInnerHTML={{ __html: svgIcon }} />
+          ) : (
+            <span className={`material-symbols-outlined ${iconColor} text-xl`}>
+              {icon}
+            </span>
+          )}
         </div>
         <Link
           className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground border border-border px-2 py-1 rounded hover:bg-secondary hover:text-foreground transition-colors flex items-center gap-1"

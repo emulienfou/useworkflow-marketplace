@@ -40,8 +40,7 @@ async function getPluginCategories() {
 }
 
 async function getAllPlugins(categories: string[]) {
-  const allPlugins = [];
-  for (const category of categories) {
+  const allPluginsPromises = categories.map(async (category) => {
     try {
       const response = await fetch(
         `https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins/${category}`,
@@ -53,26 +52,61 @@ async function getAllPlugins(categories: string[]) {
           next: { revalidate: 3600 },
         }
       );
-      if (response.ok) {
-        const plugins = await response.json();
-        if (Array.isArray(plugins)) {
-          allPlugins.push(...plugins
-            .filter((item: any) => item.type === "dir")
-            .map((item: any) => ({
-              name: item.name,
-              description: `An integration for ${item.name}`,
-              icon: "folder",
-              iconColor: "text-foreground",
-              iconBg: "bg-background",
-            }))
-          );
-        }
-      }
+      if (!response.ok) return [];
+
+      const plugins = await response.json();
+      if (!Array.isArray(plugins)) return [];
+
+      const categoryPluginsPromises = plugins
+        .filter((item: any) => item.type === "dir")
+        .map(async (item: any) => {
+          const pluginName = item.name;
+          let svgIcon: string | null = null;
+
+          try {
+            const iconResponse = await fetch(
+              `https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins/${category}/${pluginName}/icon.tsx`,
+              {
+                headers: {
+                  Authorization: `token ${process.env.GITHUB_TOKEN}`,
+                  Accept: "application/vnd.github.v3+json",
+                },
+                next: { revalidate: 3600 },
+              }
+            );
+            if (iconResponse.ok) {
+              const iconData = await iconResponse.json();
+              if (iconData.content) {
+                const iconContent = Buffer.from(iconData.content, 'base64').toString('utf8');
+                const svgMatch = iconContent.match(/<svg[^>]*>[\s\S]*?<\/svg>/);
+                if (svgMatch) {
+                  svgIcon = svgMatch[0];
+                }
+              }
+            }
+          } catch (e) {
+            // ignore icon fetch error
+          }
+
+          return {
+            name: pluginName,
+            description: `An integration for ${pluginName}`,
+            svgIcon: svgIcon,
+            icon: svgIcon ? undefined : "folder",
+            iconColor: "text-foreground",
+            iconBg: "bg-background",
+          };
+        });
+      
+      return Promise.all(categoryPluginsPromises);
     } catch (error) {
       console.error(`Error fetching plugins for category ${category}:`, error);
+      return [];
     }
-  }
-  return allPlugins;
+  });
+
+  const nestedPlugins = await Promise.all(allPluginsPromises);
+  return nestedPlugins.flat();
 }
 
 export default async function Home() {

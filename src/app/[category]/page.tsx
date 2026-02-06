@@ -28,18 +28,48 @@ async function getPluginsForCategory(category: string) {
       return [];
     }
 
-    const plugins = data
+    const pluginsPromises = data
       .filter((item: any) => item.type === "dir")
-      .map((item: any) => ({
-        name: item.name,
-        // You can fetch more details for each plugin here if needed
-        description: `An integration for ${item.name}`,
-        icon: "folder",
-        iconColor: "text-foreground",
-        iconBg: "bg-background",
-      }));
+      .map(async (item: any) => {
+        const pluginName = item.name;
+        let svgIcon: string | null = null;
+
+        try {
+          const iconResponse = await fetch(
+            `https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins/${category}/${pluginName}/icon.tsx`,
+            {
+              headers: {
+                Authorization: `token ${process.env.GITHUB_TOKEN}`,
+                Accept: "application/vnd.github.v3+json",
+              },
+              next: { revalidate: 3600 },
+            }
+          );
+          if (iconResponse.ok) {
+            const iconData = await iconResponse.json();
+            if (iconData.content) {
+              const iconContent = Buffer.from(iconData.content, 'base64').toString('utf8');
+              const svgMatch = iconContent.match(/<svg[^>]*>[\s\S]*?<\/svg>/);
+              if (svgMatch) {
+                svgIcon = svgMatch[0];
+              }
+            }
+          }
+        } catch (e) {
+          // ignore icon fetch error
+        }
+
+        return {
+          name: pluginName,
+          description: `An integration for ${pluginName}`,
+          svgIcon: svgIcon,
+          icon: svgIcon ? undefined : "folder",
+          iconColor: "text-foreground",
+          iconBg: "bg-background",
+        };
+      });
       
-    return plugins;
+    return Promise.all(pluginsPromises);
   } catch (error) {
     console.error(`Error fetching plugins for category ${category}:`, error);
     return [];

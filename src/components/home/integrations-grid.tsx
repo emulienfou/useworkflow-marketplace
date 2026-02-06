@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 interface Integration {
   name: string;
   description: string;
-  icon: string;
+  icon?: string;
+  svgIcon?: string | null;
   iconColor: string;
   iconBg: string;
 }
