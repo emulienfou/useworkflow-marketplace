@@ -2,24 +2,22 @@ export function SuperagentIcon({ className }: { className?: string }) {
   return (
     <svg
       aria-label="Superagent"
-      className={className}
-      width="48"
-      height="48"
-      viewBox="0 0 690 690"
+      className={ className }
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title>Superagent</title>
       <path
-        d="M331.167 126.514L660.346 456.95L331.167 383.373L331.167 126.514Z"
+        d="M11.519 4.401L22.969 15.894L11.519 13.335L11.519 4.401Z"
         fill="#0671A2"
       />
       <path
-        d="M330.539 124L34.0258 456.949L330.539 380.307L330.539 124Z"
+        d="M11.497 4.313L1.184 15.894L11.497 13.228V4.313Z"
         fill="#FDCCD1"
       />
       <path
-        d="M333.68 565L29.0002 455.692L333.68 381.564L654.12 455.692L333.68 565Z"
+        d="M11.606 19.652L1.009 15.85L11.606 13.272L22.752 15.85L11.606 19.652Z"
         fill="#181818"
       />
     </svg>
