@@ -78,6 +78,7 @@ async function getPluginsForCategory(category: string) {
           icon: svgIcon ? undefined : "folder",
           iconColor: "text-foreground",
           iconBg: "bg-background",
+          category: category,
         };
       });
       

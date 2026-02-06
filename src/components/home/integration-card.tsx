@@ -8,6 +8,7 @@ interface IntegrationCardProps {
   svgIcon?: string | null;
   iconColor: string;
   iconBg: string;
+  category: string;
 }
 
 export function IntegrationCard({
@@ -18,9 +19,10 @@ export function IntegrationCard({
   svgIcon,
   iconColor,
   iconBg,
+  category,
 }: IntegrationCardProps) {
   return (
-    <div className="group relative flex flex-col p-5 rounded-xl border border-border bg-card hover:border-primary/20 hover:shadow-lg transition-all duration-300">
+    <Link href={`/${category}/${name}`} className="group relative flex flex-col p-5 rounded-xl border border-border bg-card hover:border-primary/20 hover:shadow-lg transition-all duration-300">
       <div className="flex items-start justify-between mb-4">
         <div
           className={`w-10 h-10 rounded-lg ${iconBg} flex items-center justify-center border border-border group-hover:border-primary/20 transition-colors`}
@@ -33,15 +35,6 @@ export function IntegrationCard({
             </span>
           )}
         </div>
-        <Link
-          className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground border border-border px-2 py-1 rounded hover:bg-secondary hover:text-foreground transition-colors flex items-center gap-1"
-          href="#"
-        >
-          View Git{" "}
-          <span className="material-symbols-outlined text-[10px]">
-            arrow_outward
-          </span>
-        </Link>
       </div>
       <div>
         <h3 className="text-foreground font-bold text-base group-hover:text-primary transition-colors">
@@ -49,6 +42,6 @@ export function IntegrationCard({
         </h3>
         <p className="text-muted-foreground text-xs mt-1 truncate">{description}</p>
       </div>
-    </div>
+    </Link>
   );
 }

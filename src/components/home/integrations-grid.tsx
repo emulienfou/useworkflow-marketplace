@@ -9,6 +9,7 @@ interface Integration {
   svgIcon?: string | null;
   iconColor: string;
   iconBg: string;
+  category: string;
 }
 
 interface IntegrationsGridProps {

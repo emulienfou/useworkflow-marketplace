@@ -107,6 +107,7 @@ async function getAllPlugins(categories: string[]) {
             icon: svgIcon ? undefined : "folder",
             iconColor: "text-foreground",
             iconBg: "bg-background",
+            category: category,
           };
         });
       
