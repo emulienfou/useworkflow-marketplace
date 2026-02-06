@@ -1,4 +1,3 @@
-import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Clock, ExternalLink, FileText, Folder, Scale, Tag } from "lucide-react";
 import Link from "next/link";
@@ -177,7 +176,6 @@ const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
           </div>
         </div>
       </main>
-      <Footer/>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 import HeroSection from "@/components/home/hero-section";
 import { IntegrationsGrid } from "@/components/home/integrations-grid";
 import { SidebarFilters } from "@/components/home/sidebar-filters";
-import { Footer } from "@/components/layout/footer";
 
 async function getPluginsForCategory(category: string) {
   try {
@@ -145,7 +144,6 @@ const Page = async (props: PageProps<"/[category]">) => {
           <IntegrationsGrid integrations={ plugins }/>
         </div>
       </main>
-      <Footer/>
     </div>
   );
 };

@@ -26,6 +26,7 @@ const RootLayout = (props: LayoutProps<"/">) => (
   >
     { props.header }
     { props.children }
+    { props.footer }
   </body>
   </html>
 );
