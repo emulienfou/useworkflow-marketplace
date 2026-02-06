@@ -10,7 +10,7 @@ interface SidebarFiltersProps {
   categories: string[];
 }
 
-export function SidebarFilters(props: SidebarFiltersProps) {
+const SidebarFilters = (props: SidebarFiltersProps) => {
   const pathname = usePathname();
   const activeCategory = pathname === "/" ? "all" : pathname.slice(1);
 
@@ -52,4 +52,6 @@ export function SidebarFilters(props: SidebarFiltersProps) {
       </div>
     </aside>
   );
-}
+};
+
+export { SidebarFilters };
