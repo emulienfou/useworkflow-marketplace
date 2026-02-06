@@ -3,6 +3,8 @@ import { BlocksIcon, GithubIcon } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
+const currentYear = new Date().getFullYear();
+
 const Default = () => (
   <footer className="mt-20 border-t border-border bg-background py-16 px-10 relative overflow-hidden">
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 relative z-10">
@@ -57,7 +59,7 @@ const Default = () => (
     </div>
     <div
       className="max-w-7xl mx-auto mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground gap-4">
-      <p>© { new Date().getFullYear() } All rights reserved.</p>
+      <p>© { currentYear } All rights reserved.</p>
       <div className="flex items-center gap-2">
         Product by <Link href="https://davidsanchez.me" target="_blank" rel="noopener noreferrer"
                          className="font-semibold">David Sanchez</Link>

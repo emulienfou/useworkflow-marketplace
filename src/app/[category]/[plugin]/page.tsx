@@ -1,3 +1,4 @@
+import { getPluginDetails } from "@/app/actions";
 import Readme from "@/components/readme";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,75 +8,6 @@ import { Clock, ExternalLink, FileText, Folder, Scale, Tag } from "lucide-react"
 import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
-
-async function getPluginDetails(category: string, plugin: string) {
-  const GITHUB_API_BASE = "https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins";
-  const headers = {
-    Authorization: `token ${ process.env.GITHUB_TOKEN }`,
-    Accept: "application/vnd.github.v3+json",
-  };
-
-  const [indexResponse, iconResponse, readmeResponse, commitsResponse] = await Promise.all([
-    fetch(`${ GITHUB_API_BASE }/${ category }/${ plugin }/index.ts`, { headers, next: { revalidate: 3600 } }),
-    fetch(`${ GITHUB_API_BASE }/${ category }/${ plugin }/icon.tsx`, { headers, next: { revalidate: 3600 } }),
-    fetch(`${ GITHUB_API_BASE }/${ category }/${ plugin }/README.md`, { headers, next: { revalidate: 3600 } }),
-    fetch(`https://api.github.com/repos/emulienfou/useworkflow-marketplace/commits?path=plugins/${ category }/${ plugin }&per_page=1`, {
-      headers,
-      next: { revalidate: 3600 },
-    }),
-  ]);
-
-  let label = plugin;
-  let description = `An integration for ${ plugin }.`;
-  let svgIcon: string | null = null;
-  let readmeContent: string | null = null;
-  let lastUpdated = "Unknown";
-
-  if (indexResponse.ok) {
-    const indexData = await indexResponse.json();
-    if (indexData.content) {
-      const indexContent = Buffer.from(indexData.content, "base64").toString("utf8");
-      const labelMatch = indexContent.match(/label:\s*"([^"]+)"/);
-      const descriptionMatch = indexContent.match(/description:\s*"([^"]+)"/);
-      if (labelMatch?.[1]) label = labelMatch[1];
-      if (descriptionMatch?.[1]) description = descriptionMatch[1];
-    }
-  }
-
-  if (iconResponse.ok) {
-    const iconData = await iconResponse.json();
-    if (iconData.content) {
-      const iconContent = Buffer.from(iconData.content, "base64").toString("utf8");
-      const svgMatch = iconContent.match(/<svg[^>]*>[\s\S]*?<\/svg>/);
-      if (svgMatch) svgIcon = svgMatch[0];
-    }
-  }
-
-  if (readmeResponse.ok) {
-    const readmeData = await readmeResponse.json();
-    if (readmeData.content) {
-      readmeContent = Buffer.from(readmeData.content, "base64").toString("utf8");
-    }
-  }
-
-  if (commitsResponse.ok) {
-    const commitsData = await commitsResponse.json();
-    if (Array.isArray(commitsData) && commitsData.length > 0) {
-      const date = new Date(commitsData[0].commit.committer.date);
-      lastUpdated = date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-    }
-  }
-
-  return {
-    name: plugin,
-    label,
-    description,
-    svgIcon,
-    readmeContent,
-    category,
-    lastUpdated,
-  };
-}
 
 export const generateMetadata = async (props: PageProps<"/[category]/[plugin]">): Promise<Metadata> => {
   const { plugin } = await props.params;

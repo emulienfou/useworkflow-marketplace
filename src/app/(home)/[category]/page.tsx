@@ -1,6 +1,4 @@
-import HeroSection from "@/components/home/hero-section";
 import { IntegrationsGrid } from "@/components/home/integrations-grid";
-import { SidebarFilters } from "@/components/home/sidebar-filters";
 import { appConfig } from "@/config/app";
 import { capitalize } from "@/lib/utils";
 import { Metadata } from "next";
@@ -100,39 +98,6 @@ async function getPluginsForCategory(category: string) {
   }
 }
 
-async function getPluginCategories() {
-  try {
-    const response = await fetch(
-      "https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins",
-      {
-        headers: {
-          Authorization: `token ${ process.env.GITHUB_TOKEN }`,
-          Accept: "application/vnd.github.v3+json",
-        },
-        next: { revalidate: 3600 }, // Revalidate every hour
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch categories: ${ response.statusText }`);
-    }
-
-    const data = await response.json();
-
-    if (!Array.isArray(data)) {
-      console.error("Unexpected API response format:", data);
-      return [];
-    }
-
-    return data
-      .filter((item: any) => item.type === "dir")
-      .map((item: any) => item.name);
-  } catch (error) {
-    console.error("Error fetching plugin categories:", error);
-    return ["communication", "ai", "database", "social", "dev-tools"];
-  }
-}
-
 export const generateMetadata = async (props: PageProps<"/[category]">): Promise<Metadata> => {
   const { category } = await props.params;
 
@@ -144,19 +109,8 @@ export const generateMetadata = async (props: PageProps<"/[category]">): Promise
 const Page = async (props: PageProps<"/[category]">) => {
   const { category } = await props.params;
   const plugins = await getPluginsForCategory(category);
-  const categories = await getPluginCategories();
 
-  return (
-    <div className="relative flex flex-col min-h-screen w-full overflow-x-hidden bg-background">
-      <main className="flex-1 flex flex-col z-10">
-        <HeroSection/>
-        <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row gap-10 px-6 md:px-10 py-16">
-          <SidebarFilters categories={ categories }/>
-          <IntegrationsGrid integrations={ plugins }/>
-        </div>
-      </main>
-    </div>
-  );
+  return <IntegrationsGrid integrations={ plugins }/>;
 };
 
 export default Page;

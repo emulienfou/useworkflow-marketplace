@@ -1,11 +1,13 @@
-import HeroSection from "@/components/home/hero-section";
-import { IntegrationsGrid } from "@/components/home/integrations-grid";
-import { SidebarFilters } from "@/components/home/sidebar-filters";
+"use cache";
 
-async function getPluginCategories() {
+import { cacheLife } from "next/cache";
+
+const getPluginCategories = async (): Promise<string[]> => {
+  cacheLife("hours");
+
   try {
     const response = await fetch(
-      "https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins",
+      `${ process.env.GITHUB_API_REPO_BASE }/contents/plugins`,
       {
         headers: {
           Authorization: `token ${ process.env.GITHUB_TOKEN }`,
@@ -33,13 +35,15 @@ async function getPluginCategories() {
     console.error("Error fetching plugin categories:", error);
     return ["communication", "ai", "database", "social", "dev-tools"];
   }
-}
+};
 
-async function getAllPlugins(categories: string[]) {
+const getAllPlugins = async (categories: string[]) => {
+  cacheLife("hours");
+
   const allPluginsPromises = categories.map(async (category) => {
     try {
       const response = await fetch(
-        `https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins/${ category }`,
+        `${ process.env.GITHUB_API_REPO_BASE }/contents/plugins/${ category }`,
         {
           headers: {
             Authorization: `token ${ process.env.GITHUB_TOKEN }`,
@@ -64,7 +68,7 @@ async function getAllPlugins(categories: string[]) {
           // Fetch icon and index.ts in parallel
           const [iconResponse, indexResponse] = await Promise.all([
             fetch(
-              `https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins/${ category }/${ pluginName }/icon.tsx`,
+              `${ process.env.GITHUB_API_REPO_BASE }/contents/plugins/${ category }/${ pluginName }/icon.tsx`,
               {
                 headers: {
                   Authorization: `token ${ process.env.GITHUB_TOKEN }`,
@@ -73,7 +77,7 @@ async function getAllPlugins(categories: string[]) {
               },
             ),
             fetch(
-              `https://api.github.com/repos/emulienfou/useworkflow-marketplace/contents/plugins/${ category }/${ pluginName }/index.ts`,
+              `${ process.env.GITHUB_API_REPO_BASE }/contents/plugins/${ category }/${ pluginName }/index.ts`,
               {
                 headers: {
                   Authorization: `token ${ process.env.GITHUB_TOKEN }`,
@@ -126,23 +130,78 @@ async function getAllPlugins(categories: string[]) {
 
   const nestedPlugins = await Promise.all(allPluginsPromises);
   return nestedPlugins.flat();
-}
-
-const Page = async () => {
-  const categories = await getPluginCategories();
-  const allPlugins = await getAllPlugins(categories);
-
-  return (
-    <div className="relative flex flex-col min-h-screen w-full overflow-x-hidden bg-background">
-      <main className="flex-1 flex flex-col z-10">
-        <HeroSection/>
-        <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row gap-10 px-6 md:px-10 py-16">
-          <SidebarFilters categories={ categories }/>
-          <IntegrationsGrid integrations={ allPlugins }/>
-        </div>
-      </main>
-    </div>
-  );
 };
 
-export default Page;
+
+const getPluginDetails = async (category: string, plugin: string) => {
+  cacheLife("hours");
+
+  const GITHUB_API_CATEGORY_PLUGIN_BASE = `${ process.env.GITHUB_API_REPO_BASE }/contents/plugins/${ category }/${ plugin }`;
+  const headers = {
+    Authorization: `token ${ process.env.GITHUB_TOKEN }`,
+    Accept: "application/vnd.github.v3+json",
+  };
+
+  const [indexResponse, iconResponse, readmeResponse, commitsResponse] = await Promise.all([
+    fetch(`${ GITHUB_API_CATEGORY_PLUGIN_BASE }/index.ts`, { headers, next: { revalidate: 3600 } }),
+    fetch(`${ GITHUB_API_CATEGORY_PLUGIN_BASE }/icon.tsx`, { headers, next: { revalidate: 3600 } }),
+    fetch(`${ GITHUB_API_CATEGORY_PLUGIN_BASE }/README.md`, { headers, next: { revalidate: 3600 } }),
+    fetch(`${ process.env.GITHUB_API_REPO_BASE }/commits?path=plugins/${ category }/${ plugin }&per_page=1`, {
+      headers,
+      next: { revalidate: 3600 },
+    }),
+  ]);
+
+  let label = plugin;
+  let description = `An integration for ${ plugin }.`;
+  let svgIcon: string | null = null;
+  let readmeContent: string | null = null;
+  let lastUpdated = "Unknown";
+
+  if (indexResponse.ok) {
+    const indexData = await indexResponse.json();
+    if (indexData.content) {
+      const indexContent = Buffer.from(indexData.content, "base64").toString("utf8");
+      const labelMatch = indexContent.match(/label:\s*"([^"]+)"/);
+      const descriptionMatch = indexContent.match(/description:\s*"([^"]+)"/);
+      if (labelMatch?.[1]) label = labelMatch[1];
+      if (descriptionMatch?.[1]) description = descriptionMatch[1];
+    }
+  }
+
+  if (iconResponse.ok) {
+    const iconData = await iconResponse.json();
+    if (iconData.content) {
+      const iconContent = Buffer.from(iconData.content, "base64").toString("utf8");
+      const svgMatch = iconContent.match(/<svg[^>]*>[\s\S]*?<\/svg>/);
+      if (svgMatch) svgIcon = svgMatch[0];
+    }
+  }
+
+  if (readmeResponse.ok) {
+    const readmeData = await readmeResponse.json();
+    if (readmeData.content) {
+      readmeContent = Buffer.from(readmeData.content, "base64").toString("utf8");
+    }
+  }
+
+  if (commitsResponse.ok) {
+    const commitsData = await commitsResponse.json();
+    if (Array.isArray(commitsData) && commitsData.length > 0) {
+      const date = new Date(commitsData[0].commit.committer.date);
+      lastUpdated = date.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
+    }
+  }
+
+  return {
+    name: plugin,
+    label,
+    description,
+    svgIcon,
+    readmeContent,
+    category,
+    lastUpdated,
+  };
+};
+
+export { getPluginCategories, getAllPlugins, getPluginDetails };

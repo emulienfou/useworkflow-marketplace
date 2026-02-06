@@ -3,6 +3,7 @@ import nextra from "nextra";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  cacheComponents: true,
   turbopack: {
     resolveAlias: {
       // Path to your `mdx-components` file with extension
