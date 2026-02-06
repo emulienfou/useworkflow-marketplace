@@ -106,8 +106,9 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground gap-4">
-        <p>© 2024 Workflow Marketplace Inc. All rights reserved.</p>
+      <div
+        className="max-w-7xl mx-auto mt-16 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center text-xs text-muted-foreground gap-4">
+        <p>© { new Date().getFullYear() } Not affiliated with Vercel.</p>
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-green-500"></div>
           <span>All systems operational</span>

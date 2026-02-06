@@ -37,7 +37,7 @@ export function Header() {
           </span>
           <input
             className="bg-secondary/50 border border-input rounded-full py-1.5 pl-9 pr-4 text-sm text-foreground placeholder-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring transition-all w-64 hover:bg-secondary"
-            placeholder="Search integrations..."
+            placeholder="Search plugins..."
           />
           <div className="absolute right-2 flex gap-1">
             <kbd
