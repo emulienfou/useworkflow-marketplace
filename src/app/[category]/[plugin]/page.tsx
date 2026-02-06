@@ -1,9 +1,10 @@
 import Readme from "@/components/readme";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { OFFICIAL_PLUGINS } from "@/lib/constants";
+import { appConfig } from "@/config/app";
 import { capitalize } from "@/lib/utils";
 import { Clock, ExternalLink, FileText, Folder, Scale, Tag } from "lucide-react";
+import { Metadata } from "next";
 import Link from "next/link";
 import React from "react";
 
@@ -76,6 +77,14 @@ async function getPluginDetails(category: string, plugin: string) {
   };
 }
 
+export const generateMetadata = async (props: PageProps<"/[category]/[plugin]">): Promise<Metadata> => {
+  const { plugin } = await props.params;
+
+  return {
+    title: capitalize(plugin),
+  };
+};
+
 const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
   const { category, plugin } = await props.params;
   const pluginDetails = await getPluginDetails(category, plugin);
@@ -89,7 +98,7 @@ const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
           <Link className="text-muted-foreground hover:text-primary hover:underline"
                 href={ `/${ category }` }>{ capitalize(category) }</Link>
           <span className="text-muted-foreground">/</span>
-          <span className="font-bold text-foreground">{ pluginDetails.name }</span>
+          <span className="font-bold text-foreground">{ capitalize(pluginDetails.name) }</span>
         </nav>
 
         <div className="flex flex-col md:flex-row gap-6 items-start justify-between mb-8 pb-8 border-b">
@@ -106,12 +115,12 @@ const PluginPage = async (props: PageProps<"/[category]/[plugin]">) => {
               <h1 className="text-2xl md:text-3xl font-normal tracking-tight text-foreground">
                 <Link className="text-primary hover:underline" href={ `/${ category }` }>{ capitalize(category) }</Link>
                 <span className="text-muted-foreground mx-1">/</span>
-                <span className="font-bold">{ pluginDetails.name }</span>
+                <span className="font-bold">{ capitalize(pluginDetails.name) }</span>
               </h1>
               <Badge variant="outline" className="hidden sm:inline-flex">
                 Public
               </Badge>
-              { OFFICIAL_PLUGINS.includes(pluginDetails.name) && (
+              { appConfig.officialPlugins.includes(pluginDetails.name) && (
                 <Badge className="bg-green-900/30 text-green-400 border-green-900 tracking-wide">
                   Official
                 </Badge>

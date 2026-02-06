@@ -1,6 +1,9 @@
 import HeroSection from "@/components/home/hero-section";
 import { IntegrationsGrid } from "@/components/home/integrations-grid";
 import { SidebarFilters } from "@/components/home/sidebar-filters";
+import { appConfig } from "@/config/app";
+import { capitalize } from "@/lib/utils";
+import { Metadata } from "next";
 
 async function getPluginsForCategory(category: string) {
   try {
@@ -129,6 +132,14 @@ async function getPluginCategories() {
     return ["communication", "ai", "database", "social", "dev-tools"];
   }
 }
+
+export const generateMetadata = async (props: PageProps<"/[category]">): Promise<Metadata> => {
+  const { category } = await props.params;
+
+  return {
+    title: appConfig.categories.filter((cat) => cat.slug === category)[0]?.label || capitalize(category),
+  };
+};
 
 const Page = async (props: PageProps<"/[category]">) => {
   const { category } = await props.params;

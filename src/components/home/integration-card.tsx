@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { OFFICIAL_PLUGINS } from "@/lib/constants";
+import { appConfig } from "@/config/app";
 import { Folder } from "lucide-react";
 import Link from "next/link";
 
@@ -35,7 +35,7 @@ export function IntegrationCard({
             <Folder className="size-6 text-muted-foreground"/>
           ) }
         </div>
-        { OFFICIAL_PLUGINS.includes(name) && (
+        { appConfig.officialPlugins.includes(name) && (
           <Badge className="bg-green-900/30 text-green-400 border-green-900 tracking-wide">
             Official
           </Badge>
