@@ -1,4 +1,4 @@
-# UseWorkflow Marketplace
+# WorkflowBuilder Marketplace
 
 This repository serves as the official registry for integrations designed for the [**AI Workflow Builder Template
 **](https://github.com/vercel-labs/workflow-builder-template).   
@@ -7,10 +7,10 @@ AI-powered workflow ecosystem.
 
 ## Overview
 
-The UseWorkflow Marketplace provides a collection of modular integration plugins compatible with the AI Workflow Builder
-Template. Each plugin provides the UI components and execution logic required to connect AI agents and workflows to
-external services. By leveraging a GitHub-as-a-database approach, we ensure that every integration is version-controlled
-and vetted by the community.
+The WorkflowBuilder Marketplace provides a collection of modular integration plugins compatible with the AI Workflow
+Builder Template. Each plugin provides the UI components and execution logic required to connect AI agents and workflows
+to external services. By leveraging a GitHub-as-a-database approach, we ensure that every integration is
+version-controlled and vetted by the community.
 
 ## Core Principles
 
@@ -46,10 +46,9 @@ steps:
 2. Develop your plugin following the standardized format mentioned above.
 3. If your plugin requires external packages, include a local package.json and ensure it is compatible with pnpm
    workspaces.
-4. Run `pnpm discover-plugins` to regenerate `plugins/index.ts` and `lib/*` files.
-5. Run `pnpm type-check` to ensure there are no TypeScript errors.
-6. Run `pnpm fix` to format and lint your code according to the project style.
-7. Submit a Pull Request for review.
+4. Run `pnpm type-check` to ensure there are no TypeScript errors.
+5. Run `pnpm fix` to format and lint your code according to the project style.
+6. Submit a Pull Request for review.
 
 ## License
 

@@ -1,0 +1,6 @@
+packages:
+  - "plugins/**/*"
+
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
