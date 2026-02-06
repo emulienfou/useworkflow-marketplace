@@ -9,23 +9,11 @@ export function HeroSection() {
       <div className="@container max-w-6xl mx-auto relative z-10">
         <div className="flex flex-col gap-8 items-center justify-center text-center">
           <div className="flex flex-col gap-6 max-w-4xl">
-            <div className="inline-flex mx-auto items-center gap-2 px-3 py-1 rounded-full bg-secondary border border-border text-xs font-medium text-secondary-foreground">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              New: GPT-4o Integration is live
-            </div>
             <h1 className="text-5xl md:text-7xl font-bold leading-tight tracking-tight text-foreground pb-2">
-              Build at the speed
-              <br /> of{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-500">
-                thought
-              </span>
+              Best app & software plugins
             </h1>
             <p className="text-muted-foreground text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-              The next-generation marketplace for AI agents. Discover, fork, and
-              deploy workflows directly into your stack.
+              Optimize your workflows with these top software plugins. Seamlessly move and transform data between different apps with Workflow Marketplace.
             </p>
           </div>
           
@@ -38,22 +26,22 @@ export function HeroSection() {
             </Button>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8 pt-8 opacity-60">
-            <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">
-              <span className="material-symbols-outlined text-base">
-                check_circle
-              </span>{" "}
-              500+ Plugins
-            </span>
-            <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">
-              <span className="material-symbols-outlined text-base">bolt</span>{" "}
-              Instant Deploy
-            </span>
-            <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">
-              <span className="material-symbols-outlined text-base">code</span>{" "}
-              Open Source
-            </span>
-          </div>
+          {/*<div className="flex flex-wrap justify-center gap-8 pt-8 opacity-60">*/}
+          {/*  <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">*/}
+          {/*    <span className="material-symbols-outlined text-base">*/}
+          {/*      check_circle*/}
+          {/*    </span>{" "}*/}
+          {/*    500+ Plugins*/}
+          {/*  </span>*/}
+          {/*  <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">*/}
+          {/*    <span className="material-symbols-outlined text-base">bolt</span>{" "}*/}
+          {/*    Instant Deploy*/}
+          {/*  </span>*/}
+          {/*  <span className="text-muted-foreground text-sm font-mono flex items-center gap-2">*/}
+          {/*    <span className="material-symbols-outlined text-base">code</span>{" "}*/}
+          {/*    Open Source*/}
+          {/*  </span>*/}
+          {/*</div>*/}
         </div>
       </div>
     </div>
