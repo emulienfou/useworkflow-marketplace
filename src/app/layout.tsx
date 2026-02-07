@@ -1,3 +1,4 @@
+import GAProvider from "@/components/ga-provider";
 import { appConfig } from "@/config/app";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
@@ -54,7 +55,7 @@ const RootLayout = async (props: LayoutProps<"/">) => {
           search={ <Search placeholder="Search plugins & docs..."/> }
           // ... Your additional layout options
         >
-          { props.children }
+          <GAProvider>{ props.children }</GAProvider>
         </Layout>
       </React.Suspense>
     </body>
