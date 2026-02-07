@@ -19,6 +19,7 @@
     "discover-plugins": "tsx scripts/discover-plugins.ts"
   },
   "dependencies": {
+    "@next/third-parties": "^16.1.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "geist": "^1.5.1",
